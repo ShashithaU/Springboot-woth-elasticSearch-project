@@ -3,7 +3,6 @@ package com.example.demo.search;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-
 import com.example.demo.document.AbstractDocument;
 import com.example.demo.rest.dto.BaseDTO;
 import com.example.demo.search.converter.Converter;
@@ -26,8 +25,7 @@ public class ElasticsearchProxy<E extends AbstractDocument, T extends BaseDTO> {
     private final ElasticsearchClient client;
     private final List<Converter<E, T>> converters;
 
-    public ElasticsearchProxy(ElasticsearchClient client,
-                              List<Converter<E, T>> converters) {
+    public ElasticsearchProxy(ElasticsearchClient client, List<Converter<E, T>> converters) {
         this.client = client;
         this.converters = converters;
 
@@ -38,10 +36,7 @@ public class ElasticsearchProxy<E extends AbstractDocument, T extends BaseDTO> {
 
     public List<T> search(final SearchFilters filters, final SearchMeta meta, final Class<E> documentClass) {
         try {
-            SearchResponse<E> response = client.search(
-                    QueryBuilder.buildSearchRequest(filters, meta),
-                    documentClass
-            );
+            SearchResponse<E> response = client.search(QueryBuilder.buildSearchRequest(filters, meta), documentClass);
 
             List<E> documents = response.hits().hits().stream().map(Hit::source).toList();
 
